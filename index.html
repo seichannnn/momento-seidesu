@@ -155,6 +155,50 @@ header{animation:hdr .8s 1.1s both}
 #cur.on{opacity:1}#cur.big{width:46px;height:46px;margin:-23px 0 0 -23px;background:rgba(217,115,90,.12)}
 @media (hover:none){#cur{display:none}}
 @media (prefers-reduced-motion:reduce){#cv,#cur{display:none}.row.rv h3,.row.rv p,.st b,.st span{opacity:1;transform:none}}
+/* tabs */
+.tabs{position:relative;display:inline-flex;gap:4px;padding:5px;border-radius:999px;background:var(--card);border:1px solid var(--line);margin-bottom:34px;max-width:100%}
+.tabs button{position:relative;z-index:1;border:0;background:none;font:inherit;font-weight:700;font-size:.92rem;padding:10px 26px;border-radius:999px;color:var(--muted);cursor:pointer;transition:color .3s;white-space:nowrap}
+.tabs button[aria-selected=true]{color:var(--paper)}
+.tabs i{position:absolute;top:5px;bottom:5px;left:5px;width:0;border-radius:999px;background:var(--ink);transition:transform .5s cubic-bezier(.2,.8,.2,1),width .5s cubic-bezier(.2,.8,.2,1)}
+.panel{display:none}.panel.on,html:not(.js) .panel{display:block}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.it{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:30px 24px 26px;position:relative;overflow:hidden;opacity:0;transform:translateY(24px);transition:box-shadow .3s,border-color .3s}
+.panel.on .it,html:not(.js) .it{animation:itin .7s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--n,0)*70ms)}
+.it::before{content:"";position:absolute;left:24px;top:0;width:34px;height:3px;background:var(--coral);border-radius:0 0 3px 3px;transition:width .4s}
+.it:hover{border-color:var(--moss);box-shadow:0 22px 36px -26px rgba(34,51,47,.5)}.it:hover::before{width:64px}
+.it h4{font-family:var(--serif);font-weight:600;font-size:1.15rem;margin:0 0 6px}
+.it p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.75}
+@keyframes itin{to{opacity:1;transform:none}}
+@media (max-width:480px){.tabs{display:flex;width:100%}.tabs button{flex:1;padding:10px 2px;font-size:.82rem}}
+@media (prefers-reduced-motion:reduce){.it{opacity:1;transform:none}}
+/* menu + faq */
+.menu{display:flex;align-items:center}
+.lnk.act{color:var(--moss)}.lnk.act::after{transform:scaleX(1)}
+.mt{display:none;width:42px;height:42px;border:0;background:none;cursor:pointer;position:relative;margin-left:2px}
+.mt::before,.mt::after{content:"";position:absolute;left:11px;right:11px;height:1.5px;background:var(--ink);transition:transform .35s,top .35s}
+.mt::before{top:16px}.mt::after{top:25px}
+.mt[aria-expanded=true]::before{top:20px;transform:rotate(45deg)}.mt[aria-expanded=true]::after{top:20px;transform:rotate(-45deg)}
+.mo{display:none}
+@media (max-width:860px){.mt{display:block}
+.menu{position:absolute;left:0;right:0;top:70px;flex-direction:column;align-items:stretch;background:var(--paper);border-bottom:1px solid var(--line);padding:6px 22px 18px;clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .45s cubic-bezier(.2,.8,.2,1),visibility .45s}
+.menu.open{clip-path:inset(0 0 -20px 0);visibility:visible}
+.menu a{padding:15px 4px;font-size:1rem;border-bottom:1px solid var(--line)}.menu a::after{display:none}}
+@media (max-width:480px){.lg{display:none}.mo{display:block}.qa button{font-size:1rem;padding:20px 2px}}
+.faq{max-width:820px}
+.qa{border-top:1px solid var(--line)}.qa:last-child{border-bottom:1px solid var(--line)}
+.qa button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;text-align:left;border:0;background:none;font:inherit;font-family:var(--serif);font-weight:600;font-size:1.1rem;color:var(--ink);padding:24px 6px;cursor:pointer;transition:padding .4s,color .3s}
+.qa button:hover{padding-left:16px;color:var(--moss)}
+.qa i{position:relative;flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--moss);transition:transform .5s cubic-bezier(.2,.8,.2,1),background .3s}
+.qa i::before,.qa i::after{content:"";position:absolute;left:8px;right:8px;top:14px;height:1.5px;background:var(--moss);transition:transform .5s,background .3s}
+.qa i::after{transform:rotate(90deg)}
+.qa button[aria-expanded=true] i{transform:rotate(180deg);background:var(--moss)}
+.qa button[aria-expanded=true] i::before,.qa button[aria-expanded=true] i::after{background:var(--paper)}
+.qa button[aria-expanded=true] i::after{transform:rotate(0)}
+.ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s cubic-bezier(.2,.8,.2,1)}
+.ans>div{overflow:hidden}
+.ans p{margin:0;padding:0 6px 26px;color:var(--muted);opacity:0;transform:translateY(-8px);transition:opacity .5s,transform .5s}
+.qa.open .ans{grid-template-rows:1fr}.qa.open .ans p{opacity:1;transform:none;transition-delay:.15s}
+html:not(.js) .ans{grid-template-rows:1fr}html:not(.js) .ans p{opacity:1;transform:none}
 /* reveal */
 .rv{opacity:0;transform:translateY(36px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}
 .rv.in{opacity:1;transform:none}
@@ -190,8 +234,15 @@ h1{font-size:clamp(2rem,9.6vw,2.6rem)}
 <header id="hd"><div class="wrap nav">
   <a class="logo" href="#top"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1c1.7 4.3 3 6 4.6 6.4C21 8.5 22.6 10 23 12c-.4 2-2 3.5-6.4 4.600C15 17 13.700 18.700 12 23c-1.700-4.300-3-6-4.600-6.400C3 15.500 1.400 14 1 12c.4-2 2-3.500 6.400-4.600C9 7 10.300 5.300 12 1z"/></svg>MOMENTO</a>
   <nav class="nav-r">
-    <a class="lnk" href="https://momento-sei.vercel.app/login">ログイン</a>
+    <div class="menu" id="menu">
+      <a class="lnk" href="#features">機能</a>
+      <a class="lnk" href="#details" data-tab="t2">安心・安全</a>
+      <a class="lnk" href="#faq">よくある質問</a>
+      <a class="lnk mo" href="https://momento-sei.vercel.app/login">ログイン</a>
+    </div>
+    <a class="lnk lg" href="https://momento-sei.vercel.app/login">ログイン</a>
     <a class="btn" href="https://momento-sei.vercel.app/signup"><span>サインイン</span></a>
+    <button class="mt" aria-label="メニュー" aria-expanded="false" aria-controls="menu"></button>
   </nav>
 </div></header>
 
@@ -219,15 +270,15 @@ h1{font-size:clamp(2rem,9.6vw,2.6rem)}
   <span>1日1つの記録</span><span>友達だけに共有</span><span>過去の今日</span><span>思い出アルバム</span><span>招待制</span><span>通知が届く</span>
 </div></div>
 
-<section class="sec wrap">
+<section class="sec wrap" id="features">
   <div class="hd rv"><small>FEATURES</small><h2>流れていかない、<br>ゆっくり残す場所。</h2><p>あとから見返したくなる記録のために、必要なものだけを揃えました。</p></div>
   <div>
-    <div class="row rv"><i>01</i><h3>1日1つだけ</h3><p>投稿は1日に1つ。写真や短い動画に、一言を添えて今日を締めくくります。</p></div>
-    <div class="row rv"><i>02</i><h3>公開範囲を選べる</h3><p>友達だけ、全員、自分だけ。投稿ごとに選べるので、自分用の日記としても使えます。</p></div>
-    <div class="row rv"><i>03</i><h3>過去の今日</h3><p>去年の今日、何をしていたか。カレンダーと一緒に、記録が静かに戻ってきます。</p></div>
-    <div class="row rv"><i>04</i><h3>思い出アルバム</h3><p>記録をまとめてアルバムに。期限つきの共有リンクで、アプリを使っていない人にも見せられます。</p></div>
-    <div class="row rv"><i>05</i><h3>友達とのやりとり</h3><p>コメント、リアクション、ダイレクトメッセージ。大切な人とのやりとりだけが集まります。</p></div>
-    <div class="row rv"><i>06</i><h3>ホーム画面から、通知も</h3><p>iPhoneのホーム画面に追加すれば、アプリのように使えて、閉じていてもお知らせが届きます。</p></div>
+    <div class="row rv"><i>01</i><h3>1日1つだけ</h3><p>投稿は1日に1つだけ。写真や短い動画に一言を添えて、その日をひとつに絞って残します。たくさん投稿しなくていいので、急かされることも、誰かと競うこともありません。日付は、お使いの地域の時刻で数えます。</p></div>
+    <div class="row rv"><i>02</i><h3>公開範囲を選べる</h3><p>投稿ごとに、友達だけ、全員、自分だけの3つから選べます。親しい友達にだけ見せる日も、誰にも見せない自分用の日も、同じ場所で使い分けられます。</p></div>
+    <div class="row rv"><i>03</i><h3>過去の今日</h3><p>去年の今日、何をしていたか。カレンダーに記録が点として並び、同じ日の過去の記録が、静かに戻ってきます。「今日のMOMENTO」から、開くたびに、思い出に会えます。</p></div>
+    <div class="row rv"><i>04</i><h3>思い出アルバム</h3><p>記録をまとめてアルバムにして、時間の流れに沿って眺められます。期限つきの共有リンクを作れば、アプリを使っていない家族や友達にも、ログインなしで見せられます。</p></div>
+    <div class="row rv"><i>05</i><h3>友達とのやりとり</h3><p>投稿へのコメントとリアクション、そして1対1のダイレクトメッセージ。メッセージには、文字だけでなく、画像や動画も送れます。ダイレクトメッセージは、つながった友達とだけです。</p></div>
+    <div class="row rv"><i>06</i><h3>ホーム画面から、通知も</h3><p>iPhoneでは、Safariからホーム画面に追加すると、アプリのように起動できます。コメント、リアクション、メッセージ、友達申請のお知らせが、アプリを閉じていても届きます。電波が弱いときは、案内の画面が出ます。</p></div>
   </div>
   <div class="show rv">
     <div><small class="serif" style="letter-spacing:.2em;color:var(--moss)">ON THIS DAY</small><h2>積み重ねた日々が、<br>ひとつの暦になる。</h2><p>1日1つの記録は、カレンダーの上で点になります。点が増えるほど、見返す楽しみも増えていきます。</p>
@@ -236,12 +287,65 @@ h1{font-size:clamp(2rem,9.6vw,2.6rem)}
   </div>
 </section>
 
+<section class="sec wrap" id="details">
+  <div class="hd rv"><small>DETAILS</small><h2>もうすこし、<br>くわしく。</h2><p>できること、守りかた、大切にしていること。</p></div>
+  <div class="tabs rv" id="tabs" role="tablist"><i></i>
+    <button role="tab" aria-selected="true" aria-controls="p1" id="t1">できること</button>
+    <button role="tab" aria-selected="false" aria-controls="p2" id="t2">安心・安全</button>
+    <button role="tab" aria-selected="false" aria-controls="p3" id="t3">こだわり</button>
+  </div>
+  <div class="panel on" id="p1" role="tabpanel" aria-labelledby="t1"><div class="pg">
+    <div class="it"><h4>写真と動画の投稿</h4><p>写真も短い動画も、一言と一緒に残せます。動画はMP4とMOVに対応していて、iPhoneで撮った動画もそのまま選べます。画像や動画は、保存するときに自動で整えられます。</p></div>
+    <div class="it"><h4>場所とタグ</h4><p>投稿に場所を付けると、あとから地図で見返せます。自分でタグを付けて整理したり、特に残したい投稿をお気に入りに入れたりもできます。</p></div>
+    <div class="it"><h4>下書きと日記</h4><p>書きかけの投稿は、下書きとして残せます。また、友達には見せない、自分だけのプライベート日記も書けます。</p></div>
+    <div class="it"><h4>編集履歴</h4><p>投稿を編集すると、前の内容が履歴に残ります。書き直したあとで、前の内容のほうが良かったと思ったときも、戻すことができます。</p></div>
+    <div class="it"><h4>年と月の振り返り</h4><p>年ごと、月ごとに、投稿の数、動画の数、受け取ったリアクションの数と、その期間の写真が、まとめて見られます。</p></div>
+    <div class="it"><h4>ストーリーライン</h4><p>思い出アルバムに入れた記録が、時間の流れに沿って、ひとつの物語のように並びます。いつ、何があったのかを、順番にたどれます。</p></div>
+    <div class="it"><h4>クラウド保存</h4><p>写真や動画のほかに、ファイルも保存できます。保存したファイルは、承認した友達とだけ共有できます。</p></div>
+    <div class="it"><h4>友達とのつながり</h4><p>友達申請を送って、相手が承認するとつながります。拒否や、あとからの解除、ブロックもできるので、つながる相手は、いつでも自分で決められます。</p></div>
+    <div class="it"><h4>お知らせ</h4><p>コメント、リアクション、メッセージ、友達申請、過去の今日などを、お知らせとしてまとめて確認できます。ホーム画面に追加すれば、アプリを閉じていても届きます。</p></div>
+  </div></div>
+  <div class="panel" id="p2" role="tabpanel" aria-labelledby="t2"><div class="pg">
+    <div class="it"><h4>招待制</h4><p>招待コードがないと、登録できません。コードは運営が発行し、必要なくなったコードは停止できます。知らない人が、自由に入ってくることはありません。</p></div>
+    <div class="it"><h4>公開範囲を自分で選ぶ</h4><p>投稿ごとに、友達だけ、全員、自分だけを選べます。「全員」は、MOMENTOに登録している人に向けた公開で、ログインしていない人には見えません。</p></div>
+    <div class="it"><h4>撮影情報を自動で除去</h4><p>写真に含まれる撮影場所や機種などの情報(メタデータ)は、保存するときに自動で取り除きます。動画も同様です。投稿に自分で付けた場所は、残ります。</p></div>
+    <div class="it"><h4>ファイルの検証</h4><p>アップロードされたファイルは、拡張子だけでなく、中身を確認します。画像は安全な形式に変換し、動画は整えてから保存するので、形式を偽ったファイルが紛れ込みにくくなっています。</p></div>
+    <div class="it"><h4>見える人を、データの段階で制限</h4><p>投稿やメッセージを誰が読めるかは、画面の側だけでなく、データベースのルールでも決まっています。アプリの画面を経由しなくても、許可されていない人は、データを読み出せません。</p></div>
+    <div class="it"><h4>ブロックと友達解除</h4><p>苦手な相手は、ブロックできます。ブロックした相手とは、メッセージや通知のやりとりが成り立たなくなります。友達の解除も、いつでもできます。</p></div>
+    <div class="it"><h4>期限つきの共有リンク</h4><p>アルバムの共有リンクには期限があり、時間が経つと自動で見られなくなります。リンクを発行できるのは、アルバムの持ち主だけです。</p></div>
+    <div class="it"><h4>行き過ぎた利用を制限</h4><p>短い時間に何度も投稿したり、メッセージやコメントを送ったり、ファイルをアップロードしたりすると、回数の制限がかかります。荒らしや、意図しない大量の送信を防ぎます。</p></div>
+    <div class="it"><h4>管理者による対応</h4><p>問題のある利用があった場合、運営は、アカウントを一時的に停止したり、利用を制限したりできます。制限されている間は、投稿やコメントなどの書き込みができなくなります。</p></div>
+  </div></div>
+  <div class="panel" id="p3" role="tabpanel" aria-labelledby="t3"><div class="pg">
+    <div class="it"><h4>1日1つという余白</h4><p>投稿を1日1つに絞ることで、たくさん発信するための場所ではなく、今日のいちばんを選ぶ場所になります。急がず、競わず、その日をひとつだけ丁寧に残せます。</p></div>
+    <div class="it"><h4>小さな、閉じた場所</h4><p>招待された人だけが集まる、顔の見える関係のための場所です。大勢に向けて発信するのではなく、見せたい人にだけ、安心して見せられます。</p></div>
+    <div class="it"><h4>見返す前提のつくり</h4><p>カレンダー、過去の今日、アルバム、年と月の振り返り。残すだけでなく、あとから会いに行くための入り口を、いくつも用意しています。</p></div>
+    <div class="it"><h4>紙の手帳のような見た目</h4><p>生成りの紙と、深い緑、ほんの少しのコーラル。毎日開いても疲れない、落ち着いた配色と、ゆったりした余白にしています。</p></div>
+    <div class="it"><h4>アプリのように使える</h4><p>ホーム画面に追加すれば、アプリのように、全画面で起動できます。電波が弱いときは、案内の画面が出ます。</p></div>
+    <div class="it"><h4>日記にも、共有にも</h4><p>自分だけの日記として使う日も、友達と分かち合う日も。公開範囲を切り替えるだけで、ひとつの場所で使い分けられます。</p></div>
+  </div></div>
+</section>
+
 <section class="sec wrap">
   <div class="hd rv"><small>HOW TO START</small><h2>はじめ方は、3つだけ。</h2></div>
   <div class="steps rv" id="steps">
-    <div class="st"><i>1</i><b>招待コードを受け取る</b><span>友達や管理者から届いたコードを用意します。</span></div>
-    <div class="st"><i>2</i><b>アカウントを作る</b><span>メールアドレスで登録して、プロフィールを整えます。</span></div>
-    <div class="st"><i>3</i><b>今日を残す</b><span>最初の1つを投稿して、友達を招待しましょう。</span></div>
+    <div class="st"><i>1</i><b>招待コードを受け取る</b><span>友達や運営から、招待コードを受け取ります。コードは、登録のときに入力します。</span></div>
+    <div class="st"><i>2</i><b>アカウントを作る</b><span>登録画面で、メールアドレスや招待コードなどを入力します。届いた確認メールのリンクを開けば、アカウントの完成です。プロフィールは、あとから整えられます。</span></div>
+    <div class="st"><i>3</i><b>今日を残す</b><span>最初の1つを投稿して、友達とつながってみましょう。1日1つなので、肩の力を抜いて、今日いちばんの一枚から始められます。</span></div>
+  </div>
+</section>
+
+<section class="sec wrap" id="faq">
+  <div class="hd rv"><small>FAQ</small><h2>よくある質問</h2></div>
+  <div class="faq rv">
+    <div class="qa open"><button aria-expanded="true"><span>招待コードは、どうやって手に入りますか？</span><i></i></button><div class="ans"><div><p>招待コードは、MOMENTOの運営が発行します。すでに使っている友達や、運営から受け取ってください。登録画面でコードを入力すると、アカウントを作れます。コードがないと、登録はできません。</p></div></div></div>
+    <div class="qa"><button aria-expanded="false"><span>利用料金はかかりますか？</span><i></i></button><div class="ans"><div><p>現在、MOMENTOの利用に料金はかかりません。アカウントの作成から、投稿、友達とのやりとりまで、無料でお使いいただけます。</p></div></div></div>
+    <div class="qa"><button aria-expanded="false"><span>スマホで使えますか？</span><i></i></button><div class="ans"><div><p>スマホのブラウザから、そのまま使えます。iPhoneの場合は、Safariで開いて、共有メニューから「ホーム画面に追加」を選んでください。追加したアイコンから起動すると、アプリのように全画面で開き、通知の設定もできるようになります。</p></div></div></div>
+    <div class="qa"><button aria-expanded="false"><span>投稿は、1日に何回できますか？</span><i></i></button><div class="ans"><div><p>1日に1つです。日付は、お使いの地域の時刻で数えるので、日付が変わると、また新しい1つを投稿できます。</p></div></div></div>
+    <div class="qa"><button aria-expanded="false"><span>投稿は、誰に見えますか？</span><i></i></button><div class="ans"><div><p>投稿ごとに、友達だけ、全員、自分だけの3つから選べます。「全員」は、MOMENTOに登録している人に見えるという意味で、ログインしていない人には表示されません(共有リンクを作った場合を除きます)。「自分だけ」にすれば、日記として使えます。</p></div></div></div>
+    <div class="qa"><button aria-expanded="false"><span>写真や動画の場所の情報は、見えてしまいますか？</span><i></i></button><div class="ans"><div><p>写真や動画に含まれる撮影場所や機種などの情報は、保存するときに自動で取り除きます。ただし、投稿に自分で付けた場所は、その投稿を見られる人に表示されます。アルバムの共有リンクを作った場合は、リンクを開いた人にも表示されるので、見せたくない場所の投稿は、アルバムに入れないでください。</p></div></div></div>
+    <div class="qa"><button aria-expanded="false"><span>動画の長さや大きさに、制限はありますか？</span><i></i></button><div class="ans"><div><p>短い動画に対応していて、MP4とMOVの形式が使えます。長さと大きさの上限は、運営が設定しているので、上限を超えると、アップロードの画面でお知らせが出ます。</p></div></div></div>
+    <div class="qa"><button aria-expanded="false"><span>退会したいときは、どうすればいいですか？</span><i></i></button><div class="ans"><div><p>アプリの中から、退会の手続きができます。退会すると、アカウントと、投稿などのデータは削除されます。削除したデータは、元に戻せません。</p></div></div></div>
   </div>
 </section>
 
@@ -300,6 +404,29 @@ h1{font-size:clamp(2rem,9.6vw,2.6rem)}
   }
   // tap a photo card to bring it forward
   pcs.forEach(function(c){c.addEventListener('click',function(){pcs.forEach(function(o){o.classList.remove('top')});c.classList.add('top')})});
+  // detail tabs
+  var tabs=document.getElementById('tabs'),tb=tabs.querySelectorAll('button'),ind=tabs.querySelector('i');
+  document.querySelectorAll('.panel').forEach(function(p){p.querySelectorAll('.it').forEach(function(it,i){it.style.setProperty('--n',i)})});
+  function pick(b){tb.forEach(function(x){var on=x===b;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).classList.toggle('on',on)});
+    ind.style.width=b.offsetWidth+'px';ind.style.transform='translateX('+(b.offsetLeft-5)+'px)'}
+  tb.forEach(function(b,k){b.addEventListener('click',function(){pick(b)});
+    b.addEventListener('keydown',function(e){var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(d){var n=tb[(k+d+tb.length)%tb.length];n.focus();pick(n)}})});
+  function cur2(){pick(tabs.querySelector('[aria-selected=true]'))}
+  cur2();addEventListener('resize',cur2);addEventListener('load',cur2);
+  // header menu
+  var mt=document.querySelector('.mt'),mn=document.getElementById('menu');
+  function shut(){mn.classList.remove('open');mt.setAttribute('aria-expanded',false)}
+  mt.addEventListener('click',function(){var o=mn.classList.toggle('open');mt.setAttribute('aria-expanded',o)});
+  mn.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){shut();if(a.dataset.tab)pick(document.getElementById(a.dataset.tab))})});
+  addEventListener('click',function(e){if(!mn.contains(e.target)&&!mt.contains(e.target))shut()});
+  // scrollspy
+  var lks=mn.querySelectorAll('a[href^="#"]'),so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)lks.forEach(function(a){a.classList.toggle('act',a.getAttribute('href')==='#'+e.target.id)})})},{rootMargin:'-40% 0px -55% 0px'});
+  ['features','details','faq'].forEach(function(id){so.observe(document.getElementById(id))});
+  // faq accordion
+  document.querySelectorAll('.qa button').forEach(function(b){b.addEventListener('click',function(){
+    var q=b.parentNode,on=!q.classList.contains('open');
+    document.querySelectorAll('.qa.open').forEach(function(o){o.classList.remove('open');o.querySelector('button').setAttribute('aria-expanded',false)});
+    if(on){q.classList.add('open');b.setAttribute('aria-expanded',true)}})});
   // magnetic buttons
   document.querySelectorAll('.btn.big').forEach(function(b){
     b.addEventListener('pointermove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.18)+'px,'+((e.clientY-r.top-r.height/2)*.3)+'px)'});
