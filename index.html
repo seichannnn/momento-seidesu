@@ -241,7 +241,7 @@ h1{font-size:clamp(2rem,9.6vw,2.6rem)}
       <a class="lnk mo" href="https://momento-sei.vercel.app/login">ログイン</a>
     </div>
     <a class="lnk lg" href="https://momento-sei.vercel.app/login">ログイン</a>
-    <a class="btn" href="https://momento-sei.vercel.app/signup"><span>サインイン</span></a>
+    <a class="btn" href="https://momento-sei.vercel.app/signup"><span>新規登録</span></a>
     <button class="mt" aria-label="メニュー" aria-expanded="false" aria-controls="menu"></button>
   </nav>
 </div></header>
@@ -354,12 +354,29 @@ h1{font-size:clamp(2rem,9.6vw,2.6rem)}
   <h2>今日のことを、<br>残しませんか。</h2>
   <p>MOMENTOは、招待された人だけが入れる小さな場所です。</p>
   <div class="cta">
-    <a class="btn big" href="https://momento-sei.vercel.app/signup"><span>サインイン</span></a>
+    <a class="btn big" href="https://momento-sei.vercel.app/signup"><span>新規登録</span></a>
     <a class="btn big out" href="https://momento-sei.vercel.app/login"><span>ログイン</span></a>
   </div>
 </div></section>
 </main>
-<footer>MOMENTO</footer>
+<footer class="legal-footer">
+  <div class="legal-footer-brand">MOMENTO</div>
+  <nav aria-label="フッターメニュー">
+    <a href="privacy.html">プライバシーポリシー</a>
+    <a href="terms.html">利用規約</a>
+    <a href="contact.html">お問い合わせ</a>
+  </nav>
+  <small>© 2026 MOMENTO · 運営：せいちゃん</small>
+</footer>
+<style>
+.legal-footer{display:flex;flex-direction:column;align-items:center;gap:13px;padding:28px 18px 42px!important;border-top:1px solid var(--line);letter-spacing:normal}
+.legal-footer-brand{font-weight:700;letter-spacing:.18em;color:var(--ink)}
+.legal-footer nav{display:flex;justify-content:center;gap:22px;flex-wrap:wrap}
+.legal-footer nav a{color:var(--muted);font-size:.82rem;transition:color .2s}
+.legal-footer nav a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+.legal-footer small{font-size:.75rem;letter-spacing:.04em}
+@media(max-width:480px){.legal-footer nav{gap:12px 18px}}
+</style>
 
 <script>
 (function(){
