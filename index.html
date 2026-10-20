@@ -365,7 +365,15 @@ h1{font-size:clamp(2rem,9.6vw,2.6rem)}
     <a href="privacy.html">プライバシーポリシー</a>
     <a href="terms.html">利用規約</a>
     <a href="contact.html">お問い合わせ</a>
+    <a href="https://momento-sei.vercel.app/health">稼働状況</a>
   </nav>
+  <div class="st-wrap">
+    <button class="st-badge" id="stBadge" type="button" aria-expanded="false" aria-controls="stPanel" data-s="load"><i></i><span id="stText">稼働状況を確認中</span></button>
+    <div class="st-panel" id="stPanel" role="status" aria-live="polite"><div class="st-in"><div class="st-card">
+      <ul id="stList"></ul><p class="st-meta" id="stMeta"></p>
+      <a href="https://momento-sei.vercel.app/health">くわしい稼働状況を見る</a>
+    </div></div></div>
+  </div>
   <small>© 2026 MOMENTO · 運営：せいちゃん</small>
 </footer>
 <style>
@@ -375,6 +383,23 @@ h1{font-size:clamp(2rem,9.6vw,2.6rem)}
 .legal-footer nav a{color:var(--muted);font-size:.82rem;transition:color .2s}
 .legal-footer nav a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
 .legal-footer small{font-size:.75rem;letter-spacing:.04em}
+.st-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+.st-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:.8rem;font-weight:600;cursor:pointer;transition:border-color .3s,transform .3s}
+.st-badge:hover{border-color:var(--moss);transform:translateY(-1px)}
+.st-badge i{position:relative;width:9px;height:9px;border-radius:50%;background:var(--muted)}
+.st-badge i::after{content:"";position:absolute;inset:0;border-radius:50%;background:inherit;animation:stp 2.4s ease-out infinite}
+.st-badge[data-s=ok] i{background:#4f8a6b}.st-badge[data-s=degraded] i{background:#d9a441}.st-badge[data-s=down] i{background:var(--coral)}
+.st-badge[data-s=load] i::after,.st-badge[data-s=unknown] i::after{display:none}
+@keyframes stp{from{transform:scale(1);opacity:.6}to{transform:scale(2.8);opacity:0}}
+.st-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1);width:min(340px,100%)}
+.st-in{overflow:hidden;min-height:0}
+.st-card{margin-top:4px;padding:14px 18px 16px;border:1px solid var(--line);border-radius:18px;background:var(--card);text-align:left}
+.st-wrap.open .st-panel{grid-template-rows:1fr}
+.st-card ul{list-style:none;margin:0;padding:0}
+.st-card li{display:flex;justify-content:space-between;gap:12px;padding:5px 0;font-size:.82rem}
+.st-card li b{font-weight:700}.s-ok{color:#4f8a6b}.s-degraded{color:#b07d1d}.s-down{color:var(--coral)}
+.st-meta{margin:8px 0 0;font-size:.72rem;color:var(--muted);line-height:1.6}
+.st-card>a{display:inline-block;margin-top:8px;font-size:.78rem;color:var(--moss);text-decoration:underline;text-underline-offset:4px}
 @media(max-width:480px){.legal-footer nav{gap:12px 18px}}
 </style>
 
@@ -448,6 +473,31 @@ h1{font-size:clamp(2rem,9.6vw,2.6rem)}
   document.querySelectorAll('.btn.big').forEach(function(b){
     b.addEventListener('pointermove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.18)+'px,'+((e.clientY-r.top-r.height/2)*.3)+'px)'});
     b.addEventListener('pointerleave',function(){b.style.transform=''})});
+})();
+</script>
+<script>
+(function(){
+  var API='https://momento-sei.vercel.app/api/health',wrap=document.querySelector('.st-wrap');
+  if(!wrap)return;
+  var b=document.getElementById('stBadge'),tx=document.getElementById('stText'),ls=document.getElementById('stList'),meta=document.getElementById('stMeta');
+  var N={web:'Webサイト',database:'データベース',media_api:'画像・動画の配信'},L={ok:'正常',degraded:'不安定',down:'障害の可能性'};
+  function show(s,x){b.dataset.s=s;tx.textContent=x}
+  function load(){
+    fetch(API,{headers:{Accept:'application/json'}}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+      var cs=Array.isArray(d.components)?d.components:[];if(!cs.length)throw 0;
+      var st=cs.map(function(c){return c.status}),s=st.indexOf('down')>-1?'down':st.indexOf('degraded')>-1?'degraded':'ok';
+      show(s,s==='ok'?'すべて正常に稼働中':s==='degraded'?'一部で遅延があります':'障害が発生している可能性があります');
+      ls.textContent='';
+      cs.forEach(function(c){var li=document.createElement('li'),a=document.createElement('span'),z=document.createElement('b');
+        a.textContent=N[c.name]||c.name;z.textContent=L[c.status]||'確認できません';z.className='s-'+c.status;li.appendChild(a);li.appendChild(z);ls.appendChild(li)});
+      var m=[];
+      if(typeof d.uptime30d==='number'){var u=d.uptime30d<=1?d.uptime30d*100:d.uptime30d;m.push('過去30日の稼働率 '+u.toFixed(1)+'%')}
+      if(d.updatedAt){var t=new Date(d.updatedAt);if(!isNaN(t))m.push('最終確認 '+t.toLocaleString('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}))}
+      meta.textContent=m.join(' / ');
+    }).catch(function(){show('unknown','稼働状況を確認できません');ls.textContent='';meta.textContent='しばらくしてから、もう一度お試しください。'});
+  }
+  b.addEventListener('click',function(){var o=wrap.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+  load();setInterval(function(){if(!document.hidden)load()},60000);
 })();
 </script>
 </body>
