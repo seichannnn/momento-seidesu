@@ -227,6 +227,29 @@ h1{font-size:clamp(2rem,9.6vw,2.6rem)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}
 .ln>span,.lead,.cta,.note,.pi,.rv,.cal b{opacity:1;transform:none}h1 u{background-size:100% 100%}.steps::before{transform:none}}
 </style>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#f6f3ea">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MOMENTO">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="canonical" href="https://momento-seidesu.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MOMENTO">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="MOMENTO | 毎日ひとつ、思い出になる。">
+<meta property="og:description" content="1日1つの記録を、大切な人とだけ分かち合う、招待制の思い出アプリ。">
+<meta property="og:url" content="https://momento-seidesu.vercel.app/">
+<meta property="og:image" content="https://momento-seidesu.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="MOMENTO 毎日ひとつ、思い出になる。">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MOMENTO | 毎日ひとつ、思い出になる。">
+<meta name="twitter:description" content="1日1つの記録を、大切な人とだけ分かち合う、招待制の思い出アプリ。">
+<meta name="twitter:image" content="https://momento-seidesu.vercel.app/og-image.png">
 </head>
 <body>
 <div id="bar"></div>
@@ -500,5 +523,6 @@ h1{font-size:clamp(2rem,9.6vw,2.6rem)}
   load();setInterval(function(){if(!document.hidden)load()},60000);
 })();
 </script>
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
 </body>
 </html>
